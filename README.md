@@ -13,9 +13,10 @@ My generic agent skills, Claude Code subagents, Pi subagents and a Bash hook, pa
 | `skills/herdr-orchestrator/` | Skill `herdr-orchestrator`: turns a herdr main-branch agent into an orchestrator of worktree agents |
 | `.apm/agents/*.agent.md` | Claude Code subagents `worker`, `reviewer`, `integrator` in `~/.claude/agents/` |
 | `.apm/hooks/gh-hygiene.json` | PreToolUse hook on Bash, merged into `~/.claude/settings.json`. Blocks `gh` commands that would publish local paths, environment details or secrets. `GH_HYGIENE=off` disables it for one shell. |
+| `.apm/hooks/contributing-rules.json` | SessionStart hook, merged into `~/.claude/settings.json`. Injects the body of the `contributing` skill (installed separately from vocdoni/skills) into every session, so its rules apply even when the skill's description doesn't match. Silent when the skill is absent. |
 | `pi/agents/*.md` | Pi subagents, not installed by APM (see below) |
 
-The hook's regression suite is `.apm/hooks/scripts/test-gh-hygiene.py`: run `python3 .apm/hooks/scripts/test-gh-hygiene.py`.
+The hook's regression suite is `.apm/hooks/scripts/test-gh-hygiene.py`: run `python3 .apm/hooks/scripts/test-gh-hygiene.py`. The SessionStart hook's suite is `.apm/hooks/scripts/test-contributing-rules.py`, run the same way.
 
 ## Install
 
