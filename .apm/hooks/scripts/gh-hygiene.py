@@ -5,12 +5,14 @@ detail or secrets to GitHub.
 Reads the Claude Code hook payload on stdin. Exit 0 = allow, exit 2 = deny
 (stderr is fed back to the model so it rewrites).
 
-Escape hatch: GH_HYGIENE=off in the environment.
+Escape hatch: GH_HYGIENE=off in the environment. The machine's short hostname is
+detected at runtime; GH_HYGIENE_HOSTNAMES adds more names (comma-separated).
 """
 import json
 import os
 import re
 import shlex
+import socket
 import sys
 
 ALLOW, DENY = 0, 2
@@ -58,7 +60,6 @@ ENV_LEAKS = [
     (r"\bagent-of-empires\b", "aoe tooling"),
     (r"\bagent-deck\b", "local agent tooling"),
     (r"\btmux\b", "local terminal tooling"),
-    (r"\bcaprica\b", "machine hostname"),
     (r"\bon (my|this) machine\b", "environment narration"),
     (r"\bmy local\b", "environment narration"),
     (r"\bin my setup\b", "environment narration"),
@@ -173,6 +174,14 @@ def home_path_hit(text, pattern):
     return None
 
 
+def machine_hostnames():
+    """Short name of this machine plus GH_HYGIENE_HOSTNAMES, as word patterns."""
+    names = {socket.gethostname().split(".")[0]}
+    names.update(os.environ.get("GH_HYGIENE_HOSTNAMES", "").split(","))
+    return [(rf"\b{re.escape(n.strip())}\b", "machine hostname")
+            for n in sorted(names) if n.strip()]
+
+
 def scan(text):
     hits = []
     for pattern, label in SECRETS:
@@ -183,7 +192,7 @@ def scan(text):
         m = home_path_hit(text, pattern)
         if m:
             hits.append(("local environment", label, m.group(0)[:60]))
-    for pattern, label in ENV_LEAKS:
+    for pattern, label in ENV_LEAKS + machine_hostnames():
         m = re.search(pattern, text, re.IGNORECASE)
         if m:
             hits.append(("local environment", label, m.group(0)[:60]))

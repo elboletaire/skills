@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Regression suite for gh-hygiene.py. Run: python3 test-gh-hygiene.py"""
-import json, os, shlex, subprocess, sys, tempfile
+import json, os, shlex, socket, subprocess, sys, tempfile
 
 HOOK = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gh-hygiene.py")
 ALLOW, DENY = 0, 2
 
 def run(cmd, env=None, tool="Bash"):
     payload = json.dumps({"tool_name": tool, "tool_input": {"command": cmd}})
-    e = dict(os.environ); e.pop("GH_HYGIENE", None); e.update(env or {})
+    e = dict(os.environ); e.pop("GH_HYGIENE", None); e.pop("GH_HYGIENE_HOSTNAMES", None)
+    e.update(env or {})
     p = subprocess.run([sys.executable, HOOK], input=payload, text=True,
                        capture_output=True, env=e)
     return p.returncode, p.stderr
@@ -74,6 +75,13 @@ case("leak: /home path", DENY, body("Fails under /home/jane/src/app."))
 case("leak: backticked /home path", DENY, body("See `/home/jane/.cache/app`."))
 case("escape hatch GH_HYGIENE=off", ALLOW,
      f"gh pr comment 51 --body {q(LEAK)}", {"GH_HYGIENE": "off"})
+# Machine hostname: detected at runtime, case-insensitive; extras from the env var.
+SHORT_HOST = socket.gethostname().split(".")[0]
+case("runtime hostname in body", DENY, body(f"Fails only on {SHORT_HOST}."))
+case("runtime hostname, other case", DENY, body(f"Fails only on {SHORT_HOST.upper()}."))
+case("GH_HYGIENE_HOSTNAMES adds a name", DENY, body("Fails only on quietbox."),
+     {"GH_HYGIENE_HOSTNAMES": "other, quietbox"})
+case("extra hostname unset is allowed", ALLOW, body("Fails only on quietbox."))
 
 def main():
     # --body-file pointing at a real file on disk
