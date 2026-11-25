@@ -1,6 +1,7 @@
 ---
 name: herdr-orchestrator
-description: Turns this main-branch herdr agent into an orchestrator that spawns a worktree workspace, each with its own agent, for each branch the user asks for ("create feat/x", "track fix/y"). Use only when the user types /herdr-orchestrator or asks to make this herdr agent an orchestrator.
+description: Turns this main-branch herdr agent into an orchestrator that spawns a worktree workspace, each with its own agent, for each branch the user asks for ("create feat/x", "track fix/y"). Use only when the user types /herdr-orchestrator.
+disable-model-invocation: true
 ---
 
 # Herdr orchestrator

@@ -20,6 +20,8 @@ The arguments after the mode word (if any) are the raw input. Resolve the review
 
 From this point on, use the resolved values as **Reviewer A model**, **Reviewer B model**, and **resolved scope**.
 
+The default model IDs above are Pi's. Under Claude Code, use e.g. `sonnet` and `opus` as the two models, or ask the user which to use.
+
 ---
 
 ## Step 1 — Determine review scope (orchestrator only — do this before launching any subagent)

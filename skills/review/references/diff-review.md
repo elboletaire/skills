@@ -2,7 +2,7 @@
 
 Review the work done by the previous developer in read-only mode.
 
-Inspect the git log up to the latest published version (the latest tag, `git describe --tags --abbrev=0`) and review the relevant diffs carefully. Look for matching plans, specs or tasks and use them as the main review units.
+Inspect the git log up to the latest published version (for example the latest tag) and review the relevant diffs carefully. Look for matching plans, specs or tasks and use them as the main review units.
 
 Always spawn reviewer subagents:
 - If one plan or task is found, spawn one reviewer subagent for it.

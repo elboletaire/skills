@@ -1,6 +1,7 @@
 ---
 name: version
-description: Reviews the Git history since the latest release and prepares a SemVer version bump, updating version files and the changelog, then committing and tagging locally without pushing. Use when the user types /version or asks to cut, bump or prepare a release.
+description: Reviews the Git history since the latest release and prepares a SemVer version bump, updating version files and the changelog, then committing and tagging locally without pushing. Use when the user types /version.
+disable-model-invocation: true
 ---
 
 # Version
