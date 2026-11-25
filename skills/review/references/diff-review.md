@@ -1,0 +1,17 @@
+# Diff review
+
+Review the work done by the previous developer in read-only mode.
+
+Inspect the git log up to the latest published version (the latest tag, `git describe --tags --abbrev=0`) and review the relevant diffs carefully. Look for matching plans, specs or tasks and use them as the main review units.
+
+Always spawn reviewer subagents:
+- If one plan or task is found, spawn one reviewer subagent for it.
+- If multiple plans or tasks are found, spawn one reviewer subagent per plan or task.
+- If work is not covered by any plan or task, spawn one reviewer subagent for the unplanned work.
+
+Each reviewer should focus only on its assigned plan, task or unplanned work and check plan compliance, correctness, regressions, edge cases, maintainability and test coverage.
+
+Synthesize all reviewer results into a final review. End with this table:
+
+| Plan or commit name | Plan followed | Execution |
+|---|---|---|
