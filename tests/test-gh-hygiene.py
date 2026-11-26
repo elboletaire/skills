@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Regression suite for gh-hygiene.py. Run: python3 test-gh-hygiene.py"""
+"""Regression suite for gh-hygiene.py. Run: python3 tests/test-gh-hygiene.py"""
 import json, os, shlex, socket, subprocess, sys, tempfile
 
-HOOK = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gh-hygiene.py")
+HOOK = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".apm", "hooks", "scripts", "gh-hygiene.py")
 ALLOW, DENY = 0, 2
 
 def run(cmd, env=None, tool="Bash"):

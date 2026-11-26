@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Regression suite for contributing-rules.sh. Run: python3 test-contributing-rules.py"""
+"""Regression suite for contributing-rules.sh. Run: python3 tests/test-contributing-rules.py"""
 import json, os, shutil, subprocess, sys, tempfile
 
-HOOK = os.path.join(os.path.dirname(os.path.abspath(__file__)), "contributing-rules.sh")
+HOOK = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".apm", "hooks", "scripts", "contributing-rules.sh")
 
 FRONTMATTER = '---\nname: contributing\ndescription: "Use when "quoting" works"\n---\n\n'
 BODY = ('# Contributing\n\n'

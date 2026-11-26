@@ -16,7 +16,7 @@ My generic agent skills, Claude Code subagents, Pi subagents and a Bash hook, pa
 | `.apm/hooks/contributing-rules.json` | SessionStart hook, merged into `~/.claude/settings.json`. Injects the body of the `contributing` skill (installed separately from vocdoni/skills) into every session, so its rules apply even when the skill's description doesn't match. Silent when the skill is absent. |
 | `pi/agents/*.md` | Pi subagents, not installed by APM (see below) |
 
-The hook's regression suite is `.apm/hooks/scripts/test-gh-hygiene.py`: run `python3 .apm/hooks/scripts/test-gh-hygiene.py`. The SessionStart hook's suite is `.apm/hooks/scripts/test-contributing-rules.py`, run the same way.
+The hooks' regression suites live in `tests/`, outside the APM deployment: run `python3 -I tests/test-gh-hygiene.py` for the PreToolUse hook and `python3 tests/test-contributing-rules.py` for the SessionStart hook.
 
 ## Install
 
