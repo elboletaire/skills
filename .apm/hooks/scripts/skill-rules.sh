@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
-# SessionStart hook: injects the contributing skill body (frontmatter stripped) so its
-# rules apply even when its description never matches. Never blocks: exits 0 silently
-# on any problem. Plain bash 3.2 for macOS.
+# SessionStart hook: injects a skill's body (frontmatter stripped) so its rules apply even
+# when its description never matches. Usage: skill-rules.sh <skill-name>. Never blocks:
+# exits 0 silently on any problem. Plain bash 3.2 for macOS.
+
+name="${1-}"
+# Explicit letters: a [a-z] range also matches capitals in some locales.
+case "$name" in
+  ''|*[!abcdefghijklmnopqrstuvwxyz0123456789-]*) exit 0 ;;
+esac
 
 skill=""
-for f in "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/contributing/SKILL.md" "$HOME/.agents/skills/contributing/SKILL.md"; do
+for f in "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/$name/SKILL.md" "$HOME/.agents/skills/$name/SKILL.md"; do
   if [ -r "$f" ]; then
     skill="$f"
     break

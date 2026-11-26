@@ -13,10 +13,12 @@ My generic agent skills, Claude Code subagents, Pi subagents and a Bash hook, pa
 | `skills/herdr-orchestrator/` | Skill `herdr-orchestrator`: turns a herdr main-branch agent into an orchestrator of worktree agents |
 | `.apm/agents/*.agent.md` | Claude Code subagents `worker`, `reviewer`, `integrator` in `~/.claude/agents/` |
 | `.apm/hooks/gh-hygiene.json` | PreToolUse hook on Bash, merged into `~/.claude/settings.json`. Blocks `gh` commands that would publish local paths, environment details or secrets. `GH_HYGIENE=off` disables it for one shell. |
-| `.apm/hooks/contributing-rules.json` | SessionStart hook, merged into `~/.claude/settings.json`. Injects the body of the `contributing` skill (installed separately from vocdoni/skills) into every session, so its rules apply even when the skill's description doesn't match. Silent when the skill is absent. |
+| `.apm/hooks/contributing-rules.json` | SessionStart hook, merged into `~/.claude/settings.json`. Runs `skill-rules.sh contributing`, which injects the body of the `contributing` skill (installed separately from vocdoni/skills) into every session, so its rules apply even when the skill's description doesn't match. Silent when the skill is absent. |
+| `.apm/hooks/comments-rules.json` | SessionStart hook, merged into `~/.claude/settings.json`. Runs `skill-rules.sh comments`, which injects the body of the `comments` skill (installed separately from vocdoni/skills) so its comment rules apply without triggering the skill. Silent when the skill is absent. |
+| `.apm/hooks/scripts/skill-rules.sh` | Script behind both SessionStart hooks: `skill-rules.sh <name>` injects `SKILL.md` of that skill, frontmatter stripped. Each skill has its own hook because Claude Code caps `additionalContext` at 10,000 characters per hook. |
 | `pi/agents/*.md` | Pi subagents, not installed by APM (see below) |
 
-The hooks' regression suites live in `tests/`, outside the APM deployment: run `python3 -I tests/test-gh-hygiene.py` for the PreToolUse hook and `python3 tests/test-contributing-rules.py` for the SessionStart hook.
+The hooks' regression suites live in `tests/`, outside the APM deployment: run `python3 -I tests/test-gh-hygiene.py` for the PreToolUse hook and `python3 tests/test-skill-rules.py` for the SessionStart hooks (it also checks that the installed `contributing` and `comments` skills stay under the 10,000-character cap).
 
 ## Install
 
