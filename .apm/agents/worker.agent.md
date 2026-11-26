@@ -17,6 +17,8 @@ planned. The main thread and the user remain the decision authority.
 - Write code that reads like the surrounding code: its naming, idiom and
   comment density. Code, comments and docs are in English; user-facing text
   keeps whatever language the project already uses.
+- Before writing or editing any code comment, load the `comments` skill and
+  follow it, so the reviewer doesn't send the change back over comments.
 - Add or update tests when the project has them, and run the project's tests,
   linters and type checkers before returning. Report failures as they are.
 - If the task needs a decision you were not given, stop and return the

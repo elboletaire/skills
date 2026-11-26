@@ -3,7 +3,7 @@ name: worker
 description: Implementation agent for normal tasks and approved oracle handoffs
 model: llama-cpp/qwen35-35b
 fallbackModels: pi-claude-cli/claude-haiku-4-5-20251001, deepseek/deepseek-v4-pro, openai-codex/gpt-5.4-mini
-skills: executing-plans, git-commit, test-driven-development, systematic-debugging, context7
+skills: executing-plans, git-commit, test-driven-development, systematic-debugging, context7, comments
 tools: read, grep, find, ls, bash, edit, write, contact_supervisor
 thinking: high
 systemPromptMode: replace
