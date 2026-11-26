@@ -1,1 +1,1 @@
-{"hooks":{"SessionStart":[{"hooks":[{"type":"command","command":"bash ./scripts/contributing-rules.sh","timeout":10}]}]}}
+{"hooks":{"SessionStart":[{"hooks":[{"type":"command","command":"bash ./scripts/skill-rules.sh contributing","timeout":10}]}]}}
